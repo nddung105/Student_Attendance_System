@@ -1,5 +1,6 @@
 __pycache__/
 /*.pyc
+/frontend_angular/.ipynb_checkpoints/*
 /frontend_angular/node_modules/*
 /app_face_recognition/face_recognition/frozen_facenet/20180408-102900/*
 /app_face_recognition/face_recognition/weights/mtcnn_weights.npy
