@@ -39,3 +39,12 @@ $ pip install -r requirements.txt
 $ cd app_face_recognition
 $ python app.py
 ```
+
+--- 
+
+## 3. Backend
+###  3.1 Chạy chương trình
+```
+$ cd backend
+$ uvicorn application:app --host 0.0.0.0 --port 8080
+```

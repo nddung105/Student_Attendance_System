@@ -7,3 +7,9 @@ numpy==1.19.4
 Keras==2.2.5
 PyQt5
 requests
+fastapi
+python-jose
+mysql-connector
+passlib
+bcrypt
+uvicorn
