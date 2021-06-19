@@ -1,0 +1,186 @@
+<div class=" border_wrapper animated fadeIn px-3" style="padding: 0px !important;" *ngFor="let alert of alerts">
+  <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosedAlert(alert)"><span
+      [innerHtml]="alert.msg"></span></alert>
+</div>
+
+
+<div class="border_wrapper animated fadeIn">
+  <div class="row px-3">
+    <div class="col-md-12 pb-3">
+      <button (click)="addRow()" type="button" class="btn btn-primary"><i class="fa fa-camera"></i>&nbsp;Thêm
+        Camera</button>
+    </div>
+    <div class="col-md-12">
+      <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+        <thead>
+          <tr>
+            <th class="dt-center">
+              <div>STT</div>
+            </th>
+            <th>
+              <div>Camera ID</div>
+            </th>
+            <th>
+              <div>Đường dẫn RTSP</div>
+            </th>
+            <th class="dt-center">
+              <div class="sk-circle12 sk-child">Trạng thái</div>
+            </th>
+            <th>
+              <div>Hành động</div>
+            </th>
+            <!--        <th>-->
+            <!--          <div><?php echo get_phrase('Delete'); ?></div>-->
+            <!--        </th>-->
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let camera of cameras | keyvalue; let i = index">
+            <td class="dt-center">{{ i + 1 }}</td>
+            <td>{{ camera.value?.name }}</td>
+            <td>{{ camera.value?.rstp_link }}</td>
+            <td class="dt-center">{{ camera.value?.status == 0 ? "Ngừng hoạt động" : "Hoạt động" }}</td>
+            <td class="dt-center">
+              <a (click)="testCamera(cameras[i])" tooltip="Test Camera">
+                <span class="fa fa-check-square-o fa-lg"></span>
+              </a>
+              <a (click)="editRow(cameras[i])" tooltip="Sửa Camera">
+                <span class="fa fa-edit fa-lg"></span>
+              </a>
+              <a (click)="deleteRow(cameras[i])" tooltip="Xóa Camera">
+                <span class="fa fa-trash-o fa-lg"></span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div bsModal #editCameraModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-primary" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Sửa Camera</h4>
+        <button type="button" class="close" (click)="editCameraModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="editCamera()" #editForm="ngForm">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-camera fa-lg"></i></span>
+            </div>
+            <input type="text" class="form-control" placeholder="Tên" name="name" required disabled
+              [(ngModel)]="editedCamera.name" #name="ngModel" value=""
+              [ngClass]="{ 'is-invalid': name.invalid && name.touched }">
+          </div>
+          <div class="input-group mb-3" tooltip="Đường dẫn RTSP" placement="left">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-link fa-lg"></i></span>
+            </div>
+            <input type="text" class="form-control" placeholder="Đường dẫn RTSP" name="rstp_link" required
+              [(ngModel)]="editedCamera.rstp_link" #link="ngModel" value=""
+              [ngClass]="{ 'is-invalid':  link.invalid && link.touched }">
+          </div>
+          <div class="input-group mb-3" tooltip="Trạng thái" placement="left">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-power-off fa-lg"></i></span>
+            </div>
+            <select name="status" class="form-control" [(ngModel)]="editedCamera.status" #status="ngModel"
+              [ngClass]="{ 'is-invalid':  status.invalid && status.touched }" required>
+              <option value="0">Ngừng hoạt động</option>
+              <option value="1">Hoạt động</option>
+            </select>
+
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="editCameraModal.hide()">Hủy</button>
+        <button type="button" class="btn btn-primary" [disabled]="!editForm.form.valid" (click)="editCamera()">
+          Lưu lại
+        </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div bsModal #deleteCameraModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-danger" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Xóa Camera</h4>
+        <button type="button" class="close" (click)="deleteCameraModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Xóa Camera: {{deleledCameraID}} <br> Thao tác này không thể hoàn tác!!! </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="deleteCameraModal.hide()">Hủy bỏ</button>
+        <button type="button" class="btn btn-danger" (click)="deleteCamera()">Xác nhận
+        </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div bsModal #addCameraModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-primary" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Thêm Camera</h4>
+        <button type="button" class="close" (click)="addCameraModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="addCamera()" #addForm="ngForm">
+          <div class="input-group mb-3" tooltip="Tên" placement="left">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-camera fa-lg"></i></span>
+            </div>
+            <input type="text" class="form-control" placeholder="Tên" name="name" required
+              [(ngModel)]="addedCamera.name" #name="ngModel" value=""
+              [ngClass]="{ 'is-invalid': name.invalid && name.touched }">
+          </div>
+          <div class="input-group mb-3" tooltip="Đường dẫn RTSP" placement="left">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-link fa-lg"></i></span>
+            </div>
+            <input type="text" class="form-control" placeholder="Đường dẫn RTSP" name="rstp_link" required
+              [(ngModel)]="addedCamera.rstp_link" #link="ngModel" value=""
+              [ngClass]="{ 'is-invalid':  link.invalid && link.touched }">
+          </div>
+          <div class="input-group mb-3" tooltip="Trạng thái" placement="left">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-power-off fa-lg"></i></span>
+            </div>
+            <select name="status" class="form-control" [(ngModel)]="addedCamera.status" #status="ngModel"
+              [ngClass]="{ 'is-invalid':  status.invalid && status.touched }" required>
+              <option value="0">Ngừng hoạt động</option>
+              <option value="1">Hoạt động</option>
+            </select>
+
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="addCameraModal.hide()">Hủy</button>
+        <button type="button" class="btn btn-primary" [disabled]="!addForm.form.valid" (click)="addCamera()">
+          Lưu lại
+        </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,101 @@
+<div class="card card-accent-primary border_wrapper animated fadeIn" style="padding: 0px !important;">
+    <div class="card-header">
+        Kiểm tra cập nhật
+    </div>
+    <div class="card-body">
+        <div class="row px-3">
+            <div class="col-md-12">
+
+                <form (ngSubmit)="onSubmit()" #updateForm="ngForm">
+                    <div class="row justify-content-center">
+
+                        <div class="input-group mb-3 col-md-8" tooltip="Mật khẩu" placement="left">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-key fa-lg"></i></span>
+                            </div>
+                            <input type="password" class="form-control" placeholder="Mật khẩu" name="password" required
+                                [(ngModel)]="update.password" #name="ngModel" value="">
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-12 " style="text-align: center;">
+                <button type="button" class="btn btn-danger" [disabled]="!updateForm.form.valid" (click)="onSubmit()">
+                    Kiểm tra cập nhật
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #pdByPictureModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{ message}}</h4>
+                <button type="button" class="close" (click)="pdByPictureModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- <div style="text-align: center;" *ngIf="!pdByPicResponseData">
+          <div class="spinner-border spinner-border-sm"></div>
+        </div> -->
+                <div class="animated fadeIn" *ngIf="pdByPicResponseData">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-1 ml-3">
+                                            <span>Phiên bản: </span>
+                                            <span><b>{{pdByPicResponseData?.version}}</b></span>
+                                        </div>
+                                        <div class="mb-1 ml-3">
+                                            <span>Ngày phát hành: </span>
+                                            <span><b>{{pdByPicResponseData?.date}}</b></span>
+                                        </div>
+                                        <div class="ml-3">
+                                            <span>Mô tả: </span>
+                                            <span><b>{{pdByPicResponseData?.description}}</b></span>
+                                        </div>
+                                        <div class="mb-1 ml-3">
+                                            <span>Mã md5: </span>
+                                            <span><b>{{pdByPicResponseData?.md5}}</b></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/.col-->
+                    </div>
+                </div>
+
+                <div class="animated fadeIn" *ngIf="error">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-1 ml-3">
+                                            <span>[INFO] </span>
+                                            <span><b>{{ error }}</b></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/.col-->
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="pdByPicResponseData" style="color: white;" type="button" class="btn btn-info" (click)="installUpdate()">Cài đặt bản cập nhật mới</button>
+                <button type="button" class="btn btn-secondary" (click)="pdByPictureModal.hide()">Đóng</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

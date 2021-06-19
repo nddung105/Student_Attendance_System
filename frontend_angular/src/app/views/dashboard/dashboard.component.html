@@ -1,0 +1,154 @@
+<div class="card card-accent-primary border_wrapper animated fadeIn" style="padding: 0px !important;"
+  *ngIf=isShowSubject>
+  <div class="card-header">
+    Môn học
+  </div>
+  <div class="card-body">
+    <div class="row px-3">
+      <div class="col-md-12">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+          <thead>
+            <tr>
+              <th class="dt-center">
+                <div>STT</div>
+              </th>
+              <th>
+                <div>Mã môn học</div>
+              </th>
+              <th>
+                <div>Tên môn học</div>
+              </th>
+              <th>
+                <div>Mô tả</div>
+              </th>
+              <th class="dt-center">
+                <div class="sk-circle12 sk-child">Trạng thái</div>
+              </th>
+              <th>
+                <div>Hành động</div>
+              </th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let subject of subjects | keyvalue; let i = index">
+              <td class="dt-center">{{ i + 1 }}</td>
+              <td>{{ subject.value?.id }}</td>
+              <td>{{ subject.value?.name }}</td>
+              <td>{{ subject.value?.description }}</td>
+              <td class="dt-center">{{ subject.value?.id == 0 ? "Ngừng hoạt động" : "Hoạt động" }}</td>
+              <td class="dt-center">
+                <button type="button" style="color: white" class="btn btn-info" (click)="onSubmit(subject.value?.id,0)">
+                  Xem buổi học
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="card card-accent-primary border_wrapper animated fadeIn" style="padding: 0px !important;"
+  *ngIf=isShowLesson>
+  <div class="card-header">
+    Buổi học
+  </div>
+  <div class="card-body">
+    <div class="row px-3">
+      <div class="col-md-12">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTriggerLesson" class="row-border hover">
+          <thead>
+            <tr>
+              <th class="dt-center">
+                <div>STT</div>
+              </th>
+              <th>
+                <div>Mã buổi học</div>
+              </th>
+              <th>
+                <div>Bắt đầu</div>
+              </th>
+              <th>
+                <div>Kết thúc</div>
+              </th>
+              <th>
+                <div>Hành động</div>
+              </th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let lesson of lessons | keyvalue; let i = index">
+              <td class="dt-center">{{ i + 1 }}</td>
+              <td>{{ lesson.value?.id }}</td>
+              <td>{{ lesson.value?.start_time }}</td>
+              <td>{{ lesson.value?.end_time }}</td>
+              <td class="dt-center">
+                <button type="button" style="color: white" class="btn btn-info" (click)="onSubmit(lesson.value?.id,1)">
+                  Danh sách điểm danh
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <button type="button" style="color: white" class="btn-sm btn-info" (click)="onBack(0)">
+      Quay lại
+    </button>
+  </div>
+</div>
+
+
+
+<div class="card card-accent-primary border_wrapper animated fadeIn" style="padding: 0px !important;"
+  *ngIf=isShowAttendance>
+  <div class="card-header">
+    Điểm danh
+  </div>
+  <div class="card-body">
+    <div class="row px-3">
+      <div class="col-md-12">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTriggerAttendance" class="row-border hover">
+          <thead>
+            <tr>
+              <th class="dt-center">
+                <div>STT</div>
+              </th>
+              <th>
+                <div>Mã sinh viên</div>
+              </th>
+              <th>
+                <div>Họ và tên</div>
+              </th>
+              <th>
+                <div>Thời gian vào</div>
+              </th>
+              <th>
+                <div>Thời gian ra</div>
+              </th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let attendance of attendances | keyvalue; let i = index">
+              <td class="dt-center">{{ i + 1 }}</td>
+              <td>{{ attendance.value?.id }}</td>
+              <td>{{ attendance.value?.fullname }}</td>
+              <td>{{ attendance.value?.time_in }}</td>
+              <td>{{ attendance.value?.time_out }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <button type="button" style="color: white" class="btn-sm btn-info" (click)="onBack(0)">
+      Quay lại
+    </button>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<div class=" border_wrapper animated fadeIn px-3" style="padding: 0px !important;" *ngFor="let alert of alerts">
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosedAlert(alert)"><span
+            [innerHtml]="alert.msg"></span></alert>
+</div>
+
+
+<div class="card card-accent-primary border_wrapper animated fadeIn" style="padding: 0px !important;">
+    <div class="card-header">
+        Thông tin tài khoản
+    </div>
+    <div class="card-body">
+        <div class="row px-3">
+            <div class="col-md-12">
+                <form class="form-horizontal">
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label text-right" for="hf-email">Username</label>
+                        <div class="col-9">
+                            <input class="form-control" id="hf-email" type="email" name="hf-email"
+                                placeholder="{{config.username}}" autocomplete="email" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label text-right" for="hf-email">{{config.local? "Mã phòng" : "Mã
+                            giảng viên"}}</label>
+                        <div class="col-9">
+                            <input class="form-control" id="hf-email" type="email" name="hf-email"
+                                placeholder="{{config.id}}" autocomplete="email" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label text-right" for="hf-email">{{config.local? "Phòng học" :
+                            "Giảng viên"}}</label>
+                        <div class="col-9">
+                            <input class="form-control" id="hf-email" type="email" name="hf-email"
+                                placeholder="{{config.full_name}}" autocomplete="email" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label text-right" for="hf-email">Email</label>
+                        <div class="col-9">
+                            <input class="form-control" id="hf-email" type="email" name="hf-email"
+                                placeholder="{{config.email}}" autocomplete="email" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label text-right" for="hf-email">Loại tài khoản</label>
+                        <div class="col-9">
+                            <input class="form-control" id="hf-email" type="email" name="hf-email"
+                                placeholder="{{config.local? 'Phòng học' : 'Giảng viên'}}" autocomplete="email"
+                                disabled>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
